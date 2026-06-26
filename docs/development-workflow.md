@@ -92,6 +92,8 @@ Code should emerge from documented decisions rather than redefine them.
 
 When implementation reveals a better design, documentation should be updated accordingly.
 
+For **Engine** and **Core** packages, contributors should prefer a **test-first** approach whenever practical.
+
 ---
 
 ## Testing
