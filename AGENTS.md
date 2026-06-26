@@ -1,4 +1,4 @@
-# AGENTS.md
+# Crossword Platform Rules
 
 ## Purpose
 
@@ -10,7 +10,7 @@ The Vue application is only a reference implementation used to demonstrate the e
 
 ---
 
-# Engineering Principles
+## Engineering Principles
 
 These principles are non-negotiable.
 
@@ -26,7 +26,7 @@ These principles are non-negotiable.
 
 ---
 
-# Architecture Rules
+## Architecture Rules
 
 Every module must have a single responsibility.
 
@@ -48,7 +48,7 @@ No circular dependencies are allowed.
 
 ---
 
-# Domain Driven Design
+## Domain Driven Design
 
 The project follows Domain-Driven Design principles.
 
@@ -72,7 +72,7 @@ Do not introduce alternative names for existing domain concepts.
 
 ---
 
-# Event-Driven Architecture
+## Event-Driven Architecture
 
 Modules communicate using events.
 
@@ -82,7 +82,7 @@ Events are part of the public architecture.
 
 ---
 
-# Plugin First
+## Plugin First
 
 The architecture must remain extensible.
 
@@ -92,7 +92,7 @@ Avoid implementations that make future plugins impossible.
 
 ---
 
-# Provider Abstraction
+## Provider Abstraction
 
 The Engine must never know where data comes from.
 
@@ -110,7 +110,7 @@ The Engine only depends on provider contracts.
 
 ---
 
-# UI Integration
+## UI Integration
 
 The UI is intentionally "dumb".
 
@@ -131,7 +131,7 @@ Responsibilities of the Engine:
 
 ---
 
-# Documentation First
+## Documentation First
 
 Every significant architectural change must be documented before implementation.
 
@@ -157,7 +157,7 @@ Tests
 
 ---
 
-# Things You Must Never Do
+## Things You Must Never Do
 
 Never import UI frameworks into Engine packages.
 
@@ -175,7 +175,7 @@ Never break the ubiquitous language.
 
 ---
 
-# Long-Term Vision
+## Long-Term Vision
 
 The platform should be reusable in:
 

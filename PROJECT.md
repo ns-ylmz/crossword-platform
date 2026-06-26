@@ -1,5 +1,3 @@
-# PROJECT.md
-
 # Crossword Platform
 
 ## Vision
@@ -12,7 +10,7 @@ The project is designed to be portable across different runtimes and UI framewor
 
 ---
 
-# Mission
+## Mission
 
 Build a modular crossword platform that separates domain logic from presentation.
 
@@ -22,7 +20,7 @@ Every user interface is considered an adapter.
 
 ---
 
-# Goals
+## Goals
 
 The project aims to:
 
@@ -36,7 +34,7 @@ The project aims to:
 
 ---
 
-# Non Goals
+## Non Goals
 
 The project does not aim to:
 
@@ -48,7 +46,7 @@ The project does not aim to:
 
 ---
 
-# Product Vision
+## Product Vision
 
 The Crossword Platform consists of several independent but related parts.
 
@@ -63,7 +61,7 @@ The Engine is the core of the platform, but not the entire product.
 
 ---
 
-# Long-Term Vision
+## Long-Term Vision
 
 The architecture should support future expansion including:
 
@@ -80,7 +78,7 @@ Every new capability should integrate into the existing architecture instead of 
 
 ---
 
-# Development Philosophy
+## Development Philosophy
 
 The project follows a documentation-driven workflow.
 
