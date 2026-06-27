@@ -10,6 +10,7 @@ Architecture Decision Records explain **why** the architecture exists, while the
 - [ADR-0002: Separate Engine from Applications](ADR-0002-separate-engine-from-applications.md)
 - [ADR-0003: Adopt a Modular Engine Architecture](ADR-0003-adopt-modular-engine-architecture.md)
 - [ADR-0004: Adopt an Event-Driven Architecture](ADR-0004-adopt-an-event-driven-architecture.md)
+- [ADR-0005: Adopt Documentation-First Development](ADR-0005-adopt-documentation-first-development.md)
 
 ## Reading Order
 
