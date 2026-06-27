@@ -7,6 +7,7 @@ Architecture Decision Records explain **why** the architecture exists, while the
 ## Index
 
 - [ADR-0001: Adopt a Monorepo Architecture](ADR-0001-adopt-monorepo.md)
+- [ADR-0002: Separate Engine from Applications](ADR-0002-separate-engine-from-applications.md)
 
 ## Reading Order
 
