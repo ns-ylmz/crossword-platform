@@ -19,4 +19,4 @@ ADRs should normally be read in numerical order. Later ADRs may build upon decis
 
 ## Writing Guidelines
 
-For instructions on when to create an ADR, structural requirements, lifecycle, and naming conventions, please refer to the [ADR Guidelines](../adr-guidelines.md).
+For instructions on when to create an ADR, structural requirements, lifecycle, and naming conventions, please refer to the [ADR Guidelines](../engineering/adr-guidelines.md).

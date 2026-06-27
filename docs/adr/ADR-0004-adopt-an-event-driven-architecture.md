@@ -83,7 +83,7 @@ This approach was rejected due to obvious performance drawbacks, latency, and th
 ## References
 
 - [PROJECT.md](../../PROJECT.md)
-- [Engineering Principles](../engineering-principles.md)
-- [System Architecture](../system-architecture.md)
+- [Engineering Principles](../engineering/engineering-principles.md)
+- [System Architecture](../architecture/system-architecture.md)
 - [ADR-0002: Separate Engine from Applications](ADR-0002-separate-engine-from-applications.md)
 - [ADR-0003: Adopt a Modular Engine Architecture](ADR-0003-adopt-modular-engine-architecture.md)

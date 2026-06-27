@@ -186,7 +186,7 @@ Existing components should remain stable whenever possible.
 
 ## Architectural Principles
 
-This architecture follows the engineering principles defined in [Engineering Principles](engineering-principles.md).
+This architecture follows the engineering principles defined in [Engineering Principles](../engineering/engineering-principles.md).
 
 Implementation decisions should support these principles rather than introduce unnecessary complexity.
 

@@ -19,7 +19,7 @@ The repository structure is designed to achieve the following goals:
 - Easy discoverability
 - Long-term maintainability
 
-The physical structure of the repository should reinforce the architectural principles defined in [Engineering Principles](engineering-principles.md).
+The physical structure of the repository should reinforce the architectural principles defined in [Engineering Principles](../engineering/engineering-principles.md).
 
 ---
 
@@ -146,7 +146,7 @@ New top-level directories should only be introduced when they provide a clear ar
 
 Avoid creating directories for anticipated future needs.
 
-The repository should follow the principle of Progressive Decomposition defined in [Engineering Principles](engineering-principles.md).
+The repository should follow the principle of Progressive Decomposition defined in [Engineering Principles](../engineering/engineering-principles.md).
 
 ---
 

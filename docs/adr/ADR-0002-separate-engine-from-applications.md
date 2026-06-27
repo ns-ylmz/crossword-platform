@@ -81,6 +81,6 @@ This approach was rejected because it would:
 ## References
 
 - [PROJECT.md](../../PROJECT.md)
-- [System Architecture](../system-architecture.md)
-- [Domain Model](../domain-model.md)
-- [Repository Structure](../repository-structure.md)
+- [System Architecture](../architecture/system-architecture.md)
+- [Domain Model](../architecture/domain-model.md)
+- [Repository Structure](../architecture/repository-structure.md)

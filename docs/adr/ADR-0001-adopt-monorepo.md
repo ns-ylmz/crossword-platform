@@ -40,7 +40,7 @@ The repository serves as the single source of truth for:
 
 Each package remains independently versionable and maintainable while sharing a common engineering foundation.
 
-The physical repository structure is documented in [Repository Structure](../repository-structure.md).
+The physical repository structure is documented in [Repository Structure](../architecture/repository-structure.md).
 
 ---
 
@@ -84,5 +84,5 @@ This approach was rejected because it would:
 ## References
 
 - [PROJECT.md](../../PROJECT.md)
-- [Repository Structure](../repository-structure.md)
-- [System Architecture](../system-architecture.md)
+- [Repository Structure](../architecture/repository-structure.md)
+- [System Architecture](../architecture/system-architecture.md)

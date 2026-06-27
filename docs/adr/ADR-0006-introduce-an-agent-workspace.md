@@ -72,5 +72,5 @@ This approach was rejected because:
 - [PROJECT.md](../../PROJECT.md)
 - [AI Workspace](../../.ai/README.md)
 - [AI Context](../../.ai/context.md)
-- [Repository Structure](../repository-structure.md)
+- [Repository Structure](../architecture/repository-structure.md)
 - [ADR-0005: Adopt Documentation-First Development](ADR-0005-adopt-documentation-first-development.md)

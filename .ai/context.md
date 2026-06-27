@@ -67,32 +67,32 @@ AI agents should read the project documentation in the following order.
 
 ### Engineering Foundation
 
-3. [Engineering Principles](../docs/engineering-principles.md)
-4. [System Architecture](../docs/system-architecture.md)
-5. [Domain Model](../docs/domain-model.md)
+3. [Engineering Principles](../docs/engineering/engineering-principles.md)
+4. [System Architecture](../docs/architecture/system-architecture.md)
+5. [Domain Model](../docs/architecture/domain-model.md)
 
 ---
 
 ### Repository
 
-6. [Repository Structure](../docs/repository-structure.md)
+6. [Repository Structure](../docs/architecture/repository-structure.md)
 
 ---
 
 ### Development Process
 
-7. [Development Workflow](../docs/development-workflow.md)
-8. [Testing Strategy](../docs/testing-strategy.md)
+7. [Development Workflow](../docs/engineering/development-workflow.md)
+8. [Testing Strategy](../docs/engineering/testing-strategy.md)
 
 ---
 
 ### Engineering Standards
 
-9. [ADR Guidelines](../docs/adr-guidelines.md)
-10. [Commit Conventions](../docs/commit-conventions.md)
-11. [Branching Strategy](../docs/branching.strategy.md)
-12. [Pull Request Workflow](../docs/pull-request-workflow.md)
-13. [Release Process](../docs/release-process.md)
+9. [ADR Guidelines](../docs/engineering/adr-guidelines.md)
+10. [Commit Conventions](../docs/engineering/commit-conventions.md)
+11. [Branching Strategy](../docs/engineering/branching-strategy.md)
+12. [Pull Request Workflow](../docs/engineering/pull-request-workflow.md)
+13. [Release Process](../docs/engineering/release-process.md)
 
 Documentation should always be consulted before implementation.
 

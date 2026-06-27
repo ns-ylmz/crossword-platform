@@ -142,8 +142,8 @@ Architecture Decision Records complement, but do not replace, the project's docu
 General architectural concepts belong in:
 
 - [Engineering Principles](engineering-principles.md)
-- [System Architecture](system-architecture.md)
-- [Domain Model](domain-model.md)
+- [System Architecture](../architecture/system-architecture.md)
+- [Domain Model](../architecture/domain-model.md)
 
 Project-specific decisions belong in ADRs.
 

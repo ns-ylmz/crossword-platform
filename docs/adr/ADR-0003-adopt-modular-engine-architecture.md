@@ -75,6 +75,6 @@ This approach was rejected because it would:
 ## References
 
 - [PROJECT.md](../../PROJECT.md)
-- [System Architecture](../system-architecture.md)
-- [Engineering Principles](../engineering-principles.md)
-- [Domain Model](../domain-model.md)
+- [System Architecture](../architecture/system-architecture.md)
+- [Engineering Principles](../engineering/engineering-principles.md)
+- [Domain Model](../architecture/domain-model.md)

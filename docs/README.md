@@ -29,16 +29,12 @@ The documentation is organized into independent sections.
 
 Each section has a single responsibility and should avoid duplicating information from other documents.
 
-| Section      | Purpose                                      |
-| ------------ | -------------------------------------------- |
-| Introduction | Project overview and onboarding              |
-| Manifesto    | Engineering philosophy and design principles |
-| Domain       | Domain model and ubiquitous language         |
-| Architecture | Technical architecture and system design     |
-| Decisions    | Architecture Decision Records (ADRs)         |
-| Reference    | Public APIs, contracts, events, and types    |
-| Guides       | Implementation and integration guides        |
-| Roadmap      | Planned milestones and future direction      |
+| Section         | Purpose                                      |
+| --------------- | -------------------------------------------- |
+| `architecture/` | Technical architecture, domain models, and system design |
+| `engineering/`  | Engineering philosophy, workflows, strategies, and principles |
+| `design/`       | Implementation and design specs              |
+| `adr/`          | Architecture Decision Records (ADRs)         |
 
 ---
 

@@ -78,7 +78,7 @@ This approach was rejected because:
 ## References
 
 - [PROJECT.md](../../PROJECT.md)
-- [Engineering Principles](../engineering-principles.md)
-- [Development Workflow](../development-workflow.md)
+- [Engineering Principles](../engineering/engineering-principles.md)
+- [Development Workflow](../engineering/development-workflow.md)
 - [ADR-0003: Adopt a Modular Engine Architecture](ADR-0003-adopt-modular-engine-architecture.md)
 - [ADR-0004: Adopt an Event-Driven Architecture](ADR-0004-adopt-an-event-driven-architecture.md)
