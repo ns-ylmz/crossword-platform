@@ -76,30 +76,3 @@ The architecture should support future expansion including:
 
 Every new capability should integrate into the existing architecture instead of modifying its foundations.
 
----
-
-## Development Philosophy
-
-The project follows a documentation-driven workflow.
-
-Discussion
-
-↓
-
-Decision
-
-↓
-
-Documentation
-
-↓
-
-Implementation
-
-↓
-
-Testing
-
-Architecture is considered a first-class artifact of the project.
-
-Code should be the consequence of architecture, not the other way around.
