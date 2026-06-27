@@ -66,3 +66,15 @@ Before introducing significant architectural or domain changes:
 5. Add or update tests.
 
 Documentation should evolve together with the platform.
+
+---
+
+## Relationship to the Agent Workspace
+
+The `docs/` directory is the project's source of truth.
+
+AI agents should consume this documentation through the Agent Workspace located in `.ai/`.
+
+Project knowledge should always be maintained in `docs/`, while `.ai/` defines how agents interact with that knowledge.
+
+Documentation should never be duplicated between the two directories.

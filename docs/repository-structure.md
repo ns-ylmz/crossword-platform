@@ -29,6 +29,7 @@ The repository is organized into several top-level areas.
 
 ```
 /
+├── .ai/
 ├── apps/
 ├── packages/
 ├── docs/
@@ -112,6 +113,16 @@ Typical examples include:
 - Repository maintenance
 
 Tools support development but are not part of the platform itself.
+
+---
+
+## Agent Workspace
+
+The `.ai/` directory contains resources that enable AI agents to contribute to the project.
+
+It provides workflows, templates, and operational guidance without duplicating architectural knowledge.
+
+AI agents should read the project documentation inside `docs/` but follow the workflows defined inside `.ai/`.
 
 ---
 
