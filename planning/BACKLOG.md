@@ -3,6 +3,7 @@
 This document contains the granular execution checklist for the active milestones.
 
 **Status Legend:**
+
 - `[ ]` Not Started
 - `[/]` In Progress
 - `[x]` Completed

@@ -29,12 +29,12 @@ The documentation is organized into independent sections.
 
 Each section has a single responsibility and should avoid duplicating information from other documents.
 
-| Section         | Purpose                                      |
-| --------------- | -------------------------------------------- |
-| `architecture/` | Technical architecture, domain models, and system design |
+| Section         | Purpose                                                       |
+| --------------- | ------------------------------------------------------------- |
+| `architecture/` | Technical architecture, domain models, and system design      |
 | `engineering/`  | Engineering philosophy, workflows, strategies, and principles |
-| `design/`       | Implementation and design specs              |
-| `adr/`          | Architecture Decision Records (ADRs)         |
+| `design/`       | Implementation and design specs                               |
+| `adr/`          | Architecture Decision Records (ADRs)                          |
 
 ---
 
@@ -62,4 +62,3 @@ Before introducing significant architectural or domain changes:
 5. Add or update tests.
 
 Documentation should evolve together with the platform.
-
