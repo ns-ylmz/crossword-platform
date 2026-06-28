@@ -14,8 +14,8 @@ This document contains the granular execution checklist for the active milestone
 
 ## M0.1: Workspace Initialization
 
-- `[ ]` Initialize `pnpm` workspace (create `package.json` in root).
-- `[ ]` Create `pnpm-workspace.yaml` and configure `packages/*` and `apps/*`.
+- `[/]` Initialize `pnpm` workspace (create `package.json` in root).
+- `[/]` Create `pnpm-workspace.yaml` and configure `packages/*` and `apps/*`.
 - `[ ]` Set up generic `tsconfig.base.json` at the root.
 - `[ ]` Install and configure ESLint for the workspace.
 - `[ ]` Install and configure Prettier for the workspace.
