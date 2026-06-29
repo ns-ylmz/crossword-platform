@@ -20,6 +20,7 @@ This document contains the granular execution checklist for the active milestone
 - `[x]` Set up generic `tsconfig.base.json` at the root.
 - `[x]` Install and configure ESLint for the workspace.
 - `[x]` Install and configure Prettier for the workspace.
+- `[x]` Install and configure Vitest for the workspace.
 
 ## M0.2: Package Scaffolding
 

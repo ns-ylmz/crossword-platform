@@ -15,6 +15,7 @@ Before any code is written, the repository must be configured to support a moder
 - Monorepo package manager (pnpm).
 - TypeScript configuration.
 - Formatting and Linting (Prettier, ESLint).
+- Testing Framework (Vitest).
 
 ## Phase 1: Contracts & Domain (The Skeleton)
 

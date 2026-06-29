@@ -12,6 +12,7 @@ This document breaks down the active phases defined in the `ROADMAP.md` into act
 - Set up `pnpm-workspace.yaml`.
 - Configure shared `tsconfig.base.json`.
 - Configure repository-wide ESLint and Prettier.
+- Configure Vitest for TDD.
 
 ### M0.2: Package Scaffolding
 
