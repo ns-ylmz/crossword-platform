@@ -33,6 +33,6 @@ This document contains the granular execution checklist for the active milestone
 
 ## M1.2: Event & Command Contracts
 
-- `[ ]` Define the base `ICommand` interface.
-- `[ ]` Define the base `IEvent` interface.
-- `[ ]` Define the `IEventDispatcher` contract.
+- `[/]` Define the base `ICommand` interface.
+- `[/]` Define the base `IEvent` interface.
+- `[/]` Define the `IEventDispatcher` contract.
