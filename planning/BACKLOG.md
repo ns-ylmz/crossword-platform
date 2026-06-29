@@ -28,8 +28,8 @@ This document contains the granular execution checklist for the active milestone
 
 ## M1.1: Core Domain Types
 
-- `[ ]` Define `Cell`, `Grid`, `Word`, and `Clue` interfaces in `packages/core`.
-- `[ ]` Define `Puzzle` and `Game` aggregate interfaces in `packages/core`.
+- `[/]` Define `Cell`, `Grid`, `Word`, and `Clue` interfaces in `packages/core`.
+- `[/]` Define `Puzzle` and `Game` aggregate interfaces in `packages/core`.
 
 ## M1.2: Event & Command Contracts
 
