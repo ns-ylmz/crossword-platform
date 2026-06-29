@@ -1,0 +1,20 @@
+{
+  "name": "@crossword/engine",
+  "version": "0.1.0",
+  "description": "The main Crossword Engine logic and state machine",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "@crossword/core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
