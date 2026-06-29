@@ -1,14 +1,10 @@
 // Strict, serializable JSON-compatible payload rules
-export type CommandPayloadValue =
-  | string
-  | number
-  | boolean
-  | null
-  | undefined
-  | CommandPayloadValue[]
-  | { [key: string]: CommandPayloadValue };
 
-export type ICommandPayload = Record<string, CommandPayloadValue>;
+// Specific payload structures
+export type StartGamePayload = { puzzleId: string };
+export type PlaceWordPayload = { x: number; y: number; direction: 'across' | 'down'; word: string };
+
+export type ICommandPayload = StartGamePayload | PlaceWordPayload;
 
 // All possible command types
 export type CommandType = 'COMMAND_START_GAME' | 'COMMAND_PLACE_WORD';

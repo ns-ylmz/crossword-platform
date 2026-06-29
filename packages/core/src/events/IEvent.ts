@@ -1,14 +1,14 @@
-// Strict, serializable JSON-compatible payload rules
-export type EventPayloadValue =
-  | string
-  | number
-  | boolean
-  | null
-  | undefined
-  | EventPayloadValue[]
-  | { [key: string]: EventPayloadValue };
+// Specific payload structures
+export type GameStartedPayload = { gameId: string; puzzleId: string };
+export type WordPlacedPayload = {
+  x: number;
+  y: number;
+  direction: 'across' | 'down';
+  word: string;
+  isCorrect: boolean;
+};
 
-export type IEventPayload = Record<string, EventPayloadValue>;
+export type IEventPayload = GameStartedPayload | WordPlacedPayload;
 
 // All possible event types
 export type EventType = 'EVENT_GAME_STARTED' | 'EVENT_WORD_PLACED';
