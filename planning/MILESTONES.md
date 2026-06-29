@@ -12,6 +12,7 @@ This document breaks down the active phases defined in the `ROADMAP.md` into act
 - Set up `pnpm-workspace.yaml`.
 - Configure shared `tsconfig.base.json`.
 - Configure repository-wide ESLint and Prettier.
+- Configure Vitest for TDD.
 
 ### M0.2: Package Scaffolding
 
@@ -33,6 +34,16 @@ This document breaks down the active phases defined in the `ROADMAP.md` into act
 - Define the base `ICommand` interface.
 - Define the base `IEvent` interface.
 - Define the `IEventDispatcher` contract.
+
+---
+
+## Phase 2: Engine Internals
+
+### M2.1: Engine Base & Event Dispatcher
+
+- Implement `EventDispatcher` class.
+- Implement the base `CrosswordEngine` class with state transition logic.
+- Implement `execute(command)` for `StartGameCommand`.
 
 ---
 
