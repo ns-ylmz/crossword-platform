@@ -1,0 +1,17 @@
+{
+  "name": "@crossword/core",
+  "version": "0.1.0",
+  "description": "Core types, interfaces and domain models for the Crossword Platform",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
