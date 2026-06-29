@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --dir src --passWithNoTests",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.ts\""
   },

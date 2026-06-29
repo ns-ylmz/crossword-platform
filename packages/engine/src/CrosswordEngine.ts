@@ -1,37 +1,30 @@
 import type {
   GameState,
-  IPuzzleProvider,
+  ICommand,
   IDictionaryProvider,
   IGame,
-  ICommand,
+  IPuzzleProvider,
   StartGamePayload,
   PlaceWordPayload,
 } from '@crossword/core';
+
 import { EventDispatcher } from './events/EventDispatcher.js';
 
 export class CrosswordEngine {
-  private game: IGame | null = null;
   public readonly events = new EventDispatcher();
-
-  private puzzleProvider?: IPuzzleProvider;
+  
   private dictionaryProvider?: IDictionaryProvider;
+  private game: IGame | null = null;
+  private puzzleProvider?: IPuzzleProvider;
 
   constructor() {}
-
-  public attachPuzzleProvider(provider: IPuzzleProvider): void {
-    this.puzzleProvider = provider;
-  }
 
   public attachDictionaryProvider(provider: IDictionaryProvider): void {
     this.dictionaryProvider = provider;
   }
 
-  public getState(): GameState {
-    return this.game ? this.game.state : 'Idle';
-  }
-
-  public getGame(): IGame | null {
-    return this.game;
+  public attachPuzzleProvider(provider: IPuzzleProvider): void {
+    this.puzzleProvider = provider;
   }
 
   /**
@@ -49,6 +42,14 @@ export class CrosswordEngine {
       default:
         throw new Error(`Unknown command type: ${(command as ICommand).type}`);
     }
+  }
+
+  public getGame(): IGame | null {
+    return this.game;
+  }
+
+  public getState(): GameState {
+    return this.game ? this.game.state : 'Idle';
   }
 
   private async handleStartGame(payload: StartGamePayload): Promise<void> {

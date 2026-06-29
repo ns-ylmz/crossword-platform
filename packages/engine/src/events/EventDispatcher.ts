@@ -1,8 +1,8 @@
 import type {
-  IEvent,
   EventType,
-  IEventDispatcher,
   EventHandler,
+  IEvent,
+  IEventDispatcher,
   IEventPayload,
 } from '@crossword/core';
 
