@@ -1,9 +1,11 @@
+import type { ClueDirection } from '../domain/IClue.js';
+
 // Specific payload structures
 export type GameStartedPayload = { gameId: string; puzzleId: string };
 export type WordPlacedPayload = {
   x: number;
   y: number;
-  direction: 'across' | 'down';
+  direction: ClueDirection;
   word: string;
   isCorrect: boolean;
 };

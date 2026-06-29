@@ -1,8 +1,8 @@
-// Strict, serializable JSON-compatible payload rules
+import type { ClueDirection } from '../domain/IClue.js';
 
 // Specific payload structures
 export type StartGamePayload = { puzzleId: string };
-export type PlaceWordPayload = { x: number; y: number; direction: 'across' | 'down'; word: string };
+export type PlaceWordPayload = { x: number; y: number; direction: ClueDirection; word: string };
 
 export type ICommandPayload = StartGamePayload | PlaceWordPayload;
 
