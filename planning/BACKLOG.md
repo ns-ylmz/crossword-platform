@@ -3,6 +3,7 @@
 This document contains the granular execution checklist for the active milestones.
 
 **Status Legend:**
+
 - `[ ]` Not Started
 - `[/]` In Progress
 - `[x]` Completed
@@ -17,8 +18,8 @@ This document contains the granular execution checklist for the active milestone
 - `[x]` Initialize `pnpm` workspace (create `package.json` in root).
 - `[x]` Create `pnpm-workspace.yaml` and configure `packages/*` and `apps/*`.
 - `[x]` Set up generic `tsconfig.base.json` at the root.
-- `[/]` Install and configure ESLint for the workspace.
-- `[ ]` Install and configure Prettier for the workspace.
+- `[x]` Install and configure ESLint for the workspace.
+- `[/]` Install and configure Prettier for the workspace.
 
 ## M0.2: Package Scaffolding
 

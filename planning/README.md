@@ -6,11 +6,11 @@ This project is developed collaboratively by human developers and autonomous AI 
 
 ## 1. The 3-Tier Architecture
 
-| File | Scope | Purpose |
-| :--- | :--- | :--- |
-| [ROADMAP.md](ROADMAP.md) | 10,000-foot view | Defines the overarching phases of the project (e.g., Phase 0: Infra, Phase 1: Engine). Seldom changes. |
-| [MILESTONES.md](MILESTONES.md) | 1,000-foot view | Breaks the active Roadmap phase down into measurable deliverables (e.g., M0.1: Workspace setup). |
-| [BACKLOG.md](BACKLOG.md) | Ground level | The granular execution checklist. Contains the actual tasks waiting to be picked up. |
+| File                           | Scope            | Purpose                                                                                                |
+| :----------------------------- | :--------------- | :----------------------------------------------------------------------------------------------------- |
+| [ROADMAP.md](ROADMAP.md)       | 10,000-foot view | Defines the overarching phases of the project (e.g., Phase 0: Infra, Phase 1: Engine). Seldom changes. |
+| [MILESTONES.md](MILESTONES.md) | 1,000-foot view  | Breaks the active Roadmap phase down into measurable deliverables (e.g., M0.1: Workspace setup).       |
+| [BACKLOG.md](BACKLOG.md)       | Ground level     | The granular execution checklist. Contains the actual tasks waiting to be picked up.                   |
 
 ## 2. Agent Execution Workflow
 

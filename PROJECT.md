@@ -75,4 +75,3 @@ The architecture should support future expansion including:
 - CLI applications
 
 Every new capability should integrate into the existing architecture instead of modifying its foundations.
-
