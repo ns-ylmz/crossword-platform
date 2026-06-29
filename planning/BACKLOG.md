@@ -33,6 +33,14 @@ This document contains the granular execution checklist for the active milestone
 
 ## M1.2: Event & Command Contracts
 
-- `[/]` Define the base `ICommand` interface.
-- `[/]` Define the base `IEvent` interface.
-- `[/]` Define the `IEventDispatcher` contract.
+- `[x]` Define the base `ICommand` interface.
+- `[x]` Define the base `IEvent` interface.
+- `[x]` Define the `IEventDispatcher` contract.
+
+## Phase 2: Engine Internals
+
+### M2.1: Engine Base & Event Dispatcher
+
+- `[/]` Implement `EventDispatcher.ts`.
+- `[/]` Implement `CrosswordEngine.ts` base logic.
+- `[/]` Implement `execute(command)` mechanism.

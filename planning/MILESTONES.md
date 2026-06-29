@@ -36,4 +36,14 @@ This document breaks down the active phases defined in the `ROADMAP.md` into act
 
 ---
 
+## Phase 2: Engine Internals
+
+### M2.1: Engine Base & Event Dispatcher
+
+- Implement `EventDispatcher` class.
+- Implement the base `CrosswordEngine` class with state transition logic.
+- Implement `execute(command)` for `StartGameCommand`.
+
+---
+
 _(Subsequent milestones for Phase 2 and beyond will be added as we progress.)_
