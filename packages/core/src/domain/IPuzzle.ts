@@ -1,19 +1,16 @@
+import type { IGrid } from './IGrid.js';
+import type { IClue } from './IClue.js';
+
 /**
- * Represents the structural definition of a crossword puzzle.
+ * Represents the structural definition of a crossword puzzle (Static Data).
  */
 export interface IPuzzle {
   id: string;
   title?: string;
   author?: string;
-  width: number;
-  height: number;
-  /**
-   * A 2D array representing the board.
-   * Empty cells or block cells can be represented according to specific conventions (e.g., '.' for blocks).
-   */
-  grid: string[][];
+  grid: IGrid; // The static layout with correctValues
   clues: {
-    across: Record<number, string>;
-    down: Record<number, string>;
+    across: IClue[];
+    down: IClue[];
   };
 }
