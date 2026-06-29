@@ -24,4 +24,15 @@ This document contains the granular execution checklist for the active milestone
 ## M0.2: Package Scaffolding
 
 - `[x]` Scaffold `packages/core` (Types and interfaces).
-- `[/]` Scaffold `packages/engine` (Core logic, implementing Core interfaces).
+- `[x]` Scaffold `packages/engine` (Core logic, implementing Core interfaces).
+
+## M1.1: Core Domain Types
+
+- `[ ]` Define `Cell`, `Grid`, `Word`, and `Clue` interfaces in `packages/core`.
+- `[ ]` Define `Puzzle` and `Game` aggregate interfaces in `packages/core`.
+
+## M1.2: Event & Command Contracts
+
+- `[ ]` Define the base `ICommand` interface.
+- `[ ]` Define the base `IEvent` interface.
+- `[ ]` Define the `IEventDispatcher` contract.
