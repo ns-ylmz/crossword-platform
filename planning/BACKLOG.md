@@ -23,8 +23,5 @@ This document contains the granular execution checklist for the active milestone
 
 ## M0.2: Package Scaffolding
 
-- `[/]` Create directory `packages/core`.
-- `[ ]` Initialize `package.json` in `packages/core` (name: `@crossword/core`).
-- `[ ]` Create directory `packages/engine`.
-- `[ ]` Initialize `package.json` in `packages/engine` (name: `@crossword/engine`).
-- `[ ]` Add `@crossword/core` as a dependency to `@crossword/engine`.
+- `[x]` Scaffold `packages/core` (Types and interfaces).
+- `[/]` Scaffold `packages/engine` (Core logic, implementing Core interfaces).
