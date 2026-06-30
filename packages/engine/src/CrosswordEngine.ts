@@ -36,7 +36,7 @@ export class CrosswordEngine {
         await this.handleStartGame(command.payload);
         break;
       case CommandTypes.PLACE_WORD:
-        this.handlePlaceWord(command.payload);
+        await this.handlePlaceWord(command.payload);
         break;
       case CommandTypes.PAUSE_GAME:
         this.handlePauseGame();
@@ -87,9 +87,9 @@ export class CrosswordEngine {
     });
   }
 
-  private handlePlaceWord(
+  private async handlePlaceWord(
     payload: Extract<ICommand, { type: typeof CommandTypes.PLACE_WORD }>['payload'],
-  ): void {
+  ): Promise<void> {
     if (!this.game || this.game.state !== 'Playing') {
       throw new Error('Cannot place word: Game is not in playing state.');
     }
@@ -98,6 +98,7 @@ export class CrosswordEngine {
     let currentX = payload.x;
     let currentY = payload.y;
 
+    // Mutate the grid regardless of whether the word is correct (Option A)
     for (let i = 0; i < chars.length; i++) {
       this.game.userAnswers[`${currentX},${currentY}`] = chars[i];
       if (payload.direction === 'across') {
@@ -107,6 +108,18 @@ export class CrosswordEngine {
       }
     }
 
+    // Default to true if no dictionary provider is attached
+    let isCorrect = true;
+
+    if (this.dictionaryProvider) {
+      isCorrect = await this.dictionaryProvider.isValidWord(payload.word);
+    }
+
+    if (isCorrect) {
+      // 10 points per letter
+      this.game.score += payload.word.length * 10;
+    }
+
     this.events.dispatch({
       type: EventTypes.WORD_PLACED,
       payload: {
@@ -114,7 +127,7 @@ export class CrosswordEngine {
         y: payload.y,
         direction: payload.direction,
         word: payload.word,
-        isCorrect: true, // Validation will be handled in M2.3
+        isCorrect,
       },
       timestamp: Date.now(),
     });

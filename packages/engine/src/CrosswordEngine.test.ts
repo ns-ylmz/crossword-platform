@@ -1,4 +1,5 @@
-import type { IPuzzle, IPuzzleProvider } from '@crossword/core';
+import type { IDictionaryProvider, IPuzzle, IPuzzleProvider } from '@crossword/core';
+import { CommandTypes } from '@crossword/core';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { CrosswordEngine } from './CrosswordEngine.js';
@@ -7,8 +8,16 @@ describe('CrosswordEngine', () => {
   let engine: CrosswordEngine;
   let mockPuzzleProvider: IPuzzleProvider;
 
+  const mockDictionaryProvider: IDictionaryProvider = {
+    isValidWord: vi.fn(async (word: string) => {
+      // For testing, let's say "WORLD" is correct, "WRONG" is incorrect.
+      return word === 'WORLD';
+    }),
+  };
+
   beforeEach(() => {
     engine = new CrosswordEngine();
+    engine.attachDictionaryProvider(mockDictionaryProvider);
 
     mockPuzzleProvider = {
       getPuzzle: vi.fn().mockResolvedValue({
@@ -77,10 +86,10 @@ describe('CrosswordEngine', () => {
     ).rejects.toThrow('Cannot place word: Game is not in playing state.');
   });
 
-  it('should successfully place a word and dispatch EVENT_WORD_PLACED', async () => {
+  it('should successfully place a correct word, dispatch EVENT_WORD_PLACED with isCorrect: true, and update score', async () => {
     engine.attachPuzzleProvider(mockPuzzleProvider);
     await engine.execute({
-      type: 'COMMAND_START_GAME',
+      type: CommandTypes.START_GAME,
       payload: { puzzleId: 'mock-puzzle-1' },
       timestamp: Date.now(),
     });
@@ -89,7 +98,7 @@ describe('CrosswordEngine', () => {
     engine.events.subscribe('EVENT_WORD_PLACED', eventHandler);
 
     await engine.execute({
-      type: 'COMMAND_PLACE_WORD',
+      type: CommandTypes.PLACE_WORD,
       payload: { x: 2, y: 3, direction: 'down', word: 'WORLD' },
       timestamp: Date.now(),
     });
@@ -103,19 +112,57 @@ describe('CrosswordEngine', () => {
           y: 3,
           direction: 'down',
           word: 'WORLD',
+          isCorrect: true, // Should be true since 'WORLD' is mocked as valid
         }),
       }),
     );
 
-    // Verify grid mutation
     const game = engine.getGame();
     expect(game).not.toBeNull();
-    // Assuming 'WORLD' is 5 letters down starting at (2,3)
+    // Verify grid mutation
     expect(game?.userAnswers['2,3']).toBe('W');
-    expect(game?.userAnswers['2,4']).toBe('O');
-    expect(game?.userAnswers['2,5']).toBe('R');
-    expect(game?.userAnswers['2,6']).toBe('L');
-    expect(game?.userAnswers['2,7']).toBe('D');
+    // Verify scoring (10 points per letter, word is 5 letters -> 50 points)
+    expect(game?.score).toBe(50);
+  });
+
+  it('should place an incorrect word, dispatch EVENT_WORD_PLACED with isCorrect: false, and NOT update score', async () => {
+    engine.attachPuzzleProvider(mockPuzzleProvider);
+    await engine.execute({
+      type: CommandTypes.START_GAME,
+      payload: { puzzleId: 'mock-puzzle-1' },
+      timestamp: Date.now(),
+    });
+
+    const eventHandler = vi.fn();
+    engine.events.subscribe('EVENT_WORD_PLACED', eventHandler);
+
+    await engine.execute({
+      type: CommandTypes.PLACE_WORD,
+      payload: { x: 0, y: 0, direction: 'across', word: 'WRONG' },
+      timestamp: Date.now(),
+    });
+
+    expect(eventHandler).toHaveBeenCalledTimes(1);
+    expect(eventHandler).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'EVENT_WORD_PLACED',
+        payload: expect.objectContaining({
+          x: 0,
+          y: 0,
+          direction: 'across',
+          word: 'WRONG',
+          isCorrect: false, // Should be false since 'WRONG' is mocked as invalid
+        }),
+      }),
+    );
+
+    const game = engine.getGame();
+    expect(game).not.toBeNull();
+    // Grid should still mutate
+    expect(game?.userAnswers['0,0']).toBe('W');
+    expect(game?.userAnswers['1,0']).toBe('R');
+    // Score should remain 0
+    expect(game?.score).toBe(0);
   });
 
   it('should pause the game successfully if playing', async () => {
