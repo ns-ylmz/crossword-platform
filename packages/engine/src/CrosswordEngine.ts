@@ -12,7 +12,7 @@ import { EventDispatcher } from './events/EventDispatcher.js';
 
 export class CrosswordEngine {
   public readonly events = new EventDispatcher();
-  
+
   private dictionaryProvider?: IDictionaryProvider;
   private game: IGame | null = null;
   private puzzleProvider?: IPuzzleProvider;
@@ -38,6 +38,15 @@ export class CrosswordEngine {
         break;
       case 'COMMAND_PLACE_WORD':
         this.handlePlaceWord(command.payload as PlaceWordPayload);
+        break;
+      case 'COMMAND_PAUSE_GAME':
+        this.handlePauseGame();
+        break;
+      case 'COMMAND_RESUME_GAME':
+        this.handleResumeGame();
+        break;
+      case 'COMMAND_FINISH_GAME':
+        this.handleFinishGame();
         break;
       default:
         throw new Error(`Unknown command type: ${(command as ICommand).type}`);
@@ -80,8 +89,18 @@ export class CrosswordEngine {
       throw new Error('Cannot place word: Game is not in playing state.');
     }
 
-    // We will implement actual grid validation in the future.
-    // For now, blindly accept it and dispatch the event.
+    const chars = payload.word.split('');
+    let currentX = payload.x;
+    let currentY = payload.y;
+
+    for (let i = 0; i < chars.length; i++) {
+      this.game.userAnswers[`${currentX},${currentY}`] = chars[i];
+      if (payload.direction === 'across') {
+        currentX++;
+      } else {
+        currentY++;
+      }
+    }
 
     this.events.dispatch({
       type: 'EVENT_WORD_PLACED',
@@ -90,8 +109,44 @@ export class CrosswordEngine {
         y: payload.y,
         direction: payload.direction,
         word: payload.word,
-        isCorrect: true, // Mock logic for now
+        isCorrect: true, // Validation will be handled in M2.3
       },
+      timestamp: Date.now(),
+    });
+  }
+
+  private handlePauseGame(): void {
+    if (!this.game || this.game.state !== 'Playing') {
+      throw new Error('Cannot pause: Game is not in playing state.');
+    }
+    this.game.state = 'Paused';
+    this.events.dispatch({
+      type: 'EVENT_GAME_PAUSED',
+      payload: {},
+      timestamp: Date.now(),
+    });
+  }
+
+  private handleResumeGame(): void {
+    if (!this.game || this.game.state !== 'Paused') {
+      throw new Error('Cannot resume: Game is not paused.');
+    }
+    this.game.state = 'Playing';
+    this.events.dispatch({
+      type: 'EVENT_GAME_RESUMED',
+      payload: {},
+      timestamp: Date.now(),
+    });
+  }
+
+  private handleFinishGame(): void {
+    if (!this.game) {
+      throw new Error('Cannot finish: No active game.');
+    }
+    this.game.state = 'Completed';
+    this.events.dispatch({
+      type: 'EVENT_GAME_FINISHED',
+      payload: {},
       timestamp: Date.now(),
     });
   }

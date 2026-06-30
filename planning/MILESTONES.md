@@ -45,6 +45,13 @@ This document breaks down the active phases defined in the `ROADMAP.md` into act
 - Implement the base `CrosswordEngine` class with state transition logic.
 - Implement `execute(command)` for `StartGameCommand`.
 
+### M2.2: State Machine Expansion & Grid Operations
+
+- Add `Paused` and `Completed` states to the Engine.
+- Introduce `COMMAND_PAUSE_GAME`, `COMMAND_RESUME_GAME`, `COMMAND_FINISH_GAME`.
+- Implement grid mutation logic inside `COMMAND_PLACE_WORD`.
+- Write unit tests using Vitest to enforce state transitions.
+
 ---
 
 _(Subsequent milestones for Phase 2 and beyond will be added as we progress.)_

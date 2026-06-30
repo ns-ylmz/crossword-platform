@@ -42,6 +42,15 @@ This document contains the granular execution checklist for the active milestone
 
 ### M2.1: Engine Base & Event Dispatcher
 
-- `[/]` Implement `EventDispatcher.ts`.
-- `[/]` Implement `CrosswordEngine.ts` base logic.
-- `[/]` Implement `execute(command)` mechanism.
+- `[x]` Implement `EventDispatcher.ts`.
+- `[x]` Implement `CrosswordEngine.ts` base logic.
+- `[x]` Implement `execute(command)` mechanism.
+- `[x]` Write Unit Tests for Engine Base.
+
+### M2.2: State Machine Expansion & Grid Operations
+
+- `[/]` Update `ICommand` and `IEvent` contracts.
+- `[ ]` Extend `GameState` to handle `Paused` and `Completed`.
+- `[ ]` Write TDD tests for new commands (`Pause`, `Resume`, `Finish`).
+- `[ ]` Write TDD tests for Grid mutation on `PlaceWord`.
+- `[ ]` Implement Engine transition logic to pass tests.
