@@ -10,10 +10,17 @@ export type WordPlacedPayload = {
   isCorrect: boolean;
 };
 
-export type IEventPayload = GameStartedPayload | WordPlacedPayload;
+export type EmptyEventPayload = Record<string, never>;
+
+export type IEventPayload = GameStartedPayload | WordPlacedPayload | EmptyEventPayload;
 
 // All possible event types
-export type EventType = 'EVENT_GAME_STARTED' | 'EVENT_WORD_PLACED';
+export type EventType =
+  | 'EVENT_GAME_STARTED'
+  | 'EVENT_WORD_PLACED'
+  | 'EVENT_GAME_PAUSED'
+  | 'EVENT_GAME_RESUMED'
+  | 'EVENT_GAME_FINISHED';
 
 /**
  * Represents a historical fact; something that has already occurred.

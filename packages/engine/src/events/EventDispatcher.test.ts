@@ -40,7 +40,6 @@ describe('EventDispatcher', () => {
     expect(handler).not.toHaveBeenCalled();
   });
 
-
   it('should only dispatch to handlers of the matching event type', () => {
     const dispatcher = new EventDispatcher();
     const startHandler = vi.fn();

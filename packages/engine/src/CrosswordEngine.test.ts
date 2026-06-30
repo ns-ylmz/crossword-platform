@@ -33,7 +33,7 @@ describe('CrosswordEngine', () => {
         type: 'COMMAND_START_GAME',
         payload: { puzzleId: 'mock-puzzle-1' },
         timestamp: Date.now(),
-      })
+      }),
     ).rejects.toThrow('Cannot start game: No IPuzzleProvider attached.');
   });
 
@@ -62,7 +62,7 @@ describe('CrosswordEngine', () => {
         payload: expect.objectContaining({
           puzzleId: 'mock-puzzle-1',
         }),
-      })
+      }),
     );
   });
 
@@ -73,7 +73,7 @@ describe('CrosswordEngine', () => {
         type: 'COMMAND_PLACE_WORD',
         payload: { x: 0, y: 0, direction: 'across', word: 'HELLO' },
         timestamp: Date.now(),
-      })
+      }),
     ).rejects.toThrow('Cannot place word: Game is not in playing state.');
   });
 
@@ -104,7 +104,109 @@ describe('CrosswordEngine', () => {
           direction: 'down',
           word: 'WORLD',
         }),
-      })
+      }),
     );
+
+    // Verify grid mutation
+    const game = engine.getGame();
+    expect(game).not.toBeNull();
+    // Assuming 'WORLD' is 5 letters down starting at (2,3)
+    expect(game?.userAnswers['2,3']).toBe('W');
+    expect(game?.userAnswers['2,4']).toBe('O');
+    expect(game?.userAnswers['2,5']).toBe('R');
+    expect(game?.userAnswers['2,6']).toBe('L');
+    expect(game?.userAnswers['2,7']).toBe('D');
+  });
+
+  it('should pause the game successfully if playing', async () => {
+    engine.attachPuzzleProvider(mockPuzzleProvider);
+    await engine.execute({
+      type: 'COMMAND_START_GAME',
+      payload: { puzzleId: 'mock-puzzle-1' },
+      timestamp: Date.now(),
+    });
+
+    const eventHandler = vi.fn();
+    engine.events.subscribe('EVENT_GAME_PAUSED', eventHandler);
+
+    await engine.execute({
+      type: 'COMMAND_PAUSE_GAME',
+      payload: {},
+      timestamp: Date.now(),
+    });
+
+    expect(engine.getState()).toBe('Paused');
+    expect(eventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it('should reject placing a word if game is paused', async () => {
+    engine.attachPuzzleProvider(mockPuzzleProvider);
+    await engine.execute({
+      type: 'COMMAND_START_GAME',
+      payload: { puzzleId: 'mock-puzzle-1' },
+      timestamp: Date.now(),
+    });
+
+    await engine.execute({
+      type: 'COMMAND_PAUSE_GAME',
+      payload: {},
+      timestamp: Date.now(),
+    });
+
+    await expect(
+      engine.execute({
+        type: 'COMMAND_PLACE_WORD',
+        payload: { x: 2, y: 3, direction: 'down', word: 'WORLD' },
+        timestamp: Date.now(),
+      }),
+    ).rejects.toThrow('Cannot place word: Game is not in playing state.');
+  });
+
+  it('should resume the game successfully if paused', async () => {
+    engine.attachPuzzleProvider(mockPuzzleProvider);
+    await engine.execute({
+      type: 'COMMAND_START_GAME',
+      payload: { puzzleId: 'mock-puzzle-1' },
+      timestamp: Date.now(),
+    });
+
+    await engine.execute({
+      type: 'COMMAND_PAUSE_GAME',
+      payload: {},
+      timestamp: Date.now(),
+    });
+
+    const eventHandler = vi.fn();
+    engine.events.subscribe('EVENT_GAME_RESUMED', eventHandler);
+
+    await engine.execute({
+      type: 'COMMAND_RESUME_GAME',
+      payload: {},
+      timestamp: Date.now(),
+    });
+
+    expect(engine.getState()).toBe('Playing');
+    expect(eventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it('should finish the game successfully', async () => {
+    engine.attachPuzzleProvider(mockPuzzleProvider);
+    await engine.execute({
+      type: 'COMMAND_START_GAME',
+      payload: { puzzleId: 'mock-puzzle-1' },
+      timestamp: Date.now(),
+    });
+
+    const eventHandler = vi.fn();
+    engine.events.subscribe('EVENT_GAME_FINISHED', eventHandler);
+
+    await engine.execute({
+      type: 'COMMAND_FINISH_GAME',
+      payload: {},
+      timestamp: Date.now(),
+    });
+
+    expect(engine.getState()).toBe('Completed');
+    expect(eventHandler).toHaveBeenCalledTimes(1);
   });
 });
