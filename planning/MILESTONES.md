@@ -52,6 +52,13 @@ This document breaks down the active phases defined in the `ROADMAP.md` into act
 - Implement grid mutation logic inside `COMMAND_PLACE_WORD`.
 - Write unit tests using Vitest to enforce state transitions.
 
+### M2.3: Word Validation & Scoring
+
+- Connect the `IDictionaryProvider` interface to the Engine.
+- Implement validation logic inside `COMMAND_PLACE_WORD` to check if a word actually exists in the dictionary.
+- Set the `isCorrect` payload property accurately when emitting `EVENT_WORD_PLACED`.
+- Update the Game Score state based on successful word placements.
+
 ---
 
-_(Subsequent milestones for Phase 2 and beyond will be added as we progress.)_
+_(Subsequent milestones for Phase 3: Extensibility & UI will be added as we progress.)_

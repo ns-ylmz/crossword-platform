@@ -49,8 +49,15 @@ This document contains the granular execution checklist for the active milestone
 
 ### M2.2: State Machine Expansion & Grid Operations
 
-- `[/]` Update `ICommand` and `IEvent` contracts.
-- `[ ]` Extend `GameState` to handle `Paused` and `Completed`.
-- `[ ]` Write TDD tests for new commands (`Pause`, `Resume`, `Finish`).
-- `[ ]` Write TDD tests for Grid mutation on `PlaceWord`.
-- `[ ]` Implement Engine transition logic to pass tests.
+- `[x]` Update `ICommand` and `IEvent` contracts.
+- `[x]` Extend `GameState` to handle `Paused` and `Completed`.
+- `[x]` Write TDD tests for new commands (`Pause`, `Resume`, `Finish`).
+- `[x]` Write TDD tests for Grid mutation on `PlaceWord`.
+- `[x]` Implement Engine transition logic to pass tests.
+- `[x]` Refactor into strictly typed `IMessage` messaging infrastructure.
+
+### M2.3: Word Validation & Scoring
+
+- `[ ]` Integrate `IDictionaryProvider` into `handlePlaceWord` to validate inputs.
+- `[ ]` Update `Game.score` based on correct/incorrect placements.
+- `[ ]` Write TDD tests using a mock dictionary provider.
