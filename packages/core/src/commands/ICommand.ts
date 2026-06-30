@@ -1,29 +1,31 @@
 import type { ClueDirection } from '../domain/IClue.js';
+import type { IMessage } from '../domain/IMessage.js';
 
-// Specific payload structures
-export type StartGamePayload = { puzzleId: string };
-export type PlaceWordPayload = { x: number; y: number; direction: ClueDirection; word: string };
+export const CommandTypes = {
+  START_GAME: 'COMMAND_START_GAME',
+  PLACE_WORD: 'COMMAND_PLACE_WORD',
+  PAUSE_GAME: 'COMMAND_PAUSE_GAME',
+  RESUME_GAME: 'COMMAND_RESUME_GAME',
+  FINISH_GAME: 'COMMAND_FINISH_GAME',
+} as const;
 
 export type EmptyPayload = Record<string, never>;
 
-export type ICommandPayload = StartGamePayload | PlaceWordPayload | EmptyPayload;
+export type StartGameCommand = IMessage<typeof CommandTypes.START_GAME, { puzzleId: string }>;
 
-// All possible command types
-export type CommandType =
-  | 'COMMAND_START_GAME'
-  | 'COMMAND_PLACE_WORD'
-  | 'COMMAND_PAUSE_GAME'
-  | 'COMMAND_RESUME_GAME'
-  | 'COMMAND_FINISH_GAME';
+export type PlaceWordCommand = IMessage<
+  typeof CommandTypes.PLACE_WORD,
+  { x: number; y: number; direction: ClueDirection; word: string }
+>;
+
+export type PauseGameCommand = IMessage<typeof CommandTypes.PAUSE_GAME, EmptyPayload>;
+
+export type ResumeGameCommand = IMessage<typeof CommandTypes.RESUME_GAME, EmptyPayload>;
+
+export type FinishGameCommand = IMessage<typeof CommandTypes.FINISH_GAME, EmptyPayload>;
 
 /**
  * Represents an intent to alter the Engine's state.
  */
-export interface ICommand<
-  TType extends CommandType = CommandType,
-  TPayload extends ICommandPayload = ICommandPayload,
-> {
-  type: TType;
-  payload: TPayload;
-  timestamp: number;
-}
+export type ICommand =
+  StartGameCommand | PlaceWordCommand | PauseGameCommand | ResumeGameCommand | FinishGameCommand;

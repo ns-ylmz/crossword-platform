@@ -1,10 +1,4 @@
-import type {
-  EventType,
-  EventHandler,
-  IEvent,
-  IEventDispatcher,
-  IEventPayload,
-} from '@crossword/core';
+import type { EventHandler, IEvent, IEventDispatcher } from '@crossword/core';
 
 export class EventDispatcher implements IEventDispatcher {
   // We use a generic Map, as the actual type safety is enforced by the subscribe/unsubscribe signatures
@@ -19,9 +13,9 @@ export class EventDispatcher implements IEventDispatcher {
     }
   }
 
-  public subscribe<TType extends EventType, TPayload extends IEventPayload>(
+  public subscribe<TType extends IEvent['type']>(
     eventType: TType,
-    handler: EventHandler<IEvent<TType, TPayload>>,
+    handler: EventHandler<Extract<IEvent, { type: TType }>>,
   ): void {
     if (!this.listeners.has(eventType)) {
       this.listeners.set(eventType, new Set());
@@ -29,9 +23,9 @@ export class EventDispatcher implements IEventDispatcher {
     this.listeners.get(eventType)!.add(handler as EventHandler<IEvent>);
   }
 
-  public unsubscribe<TType extends EventType, TPayload extends IEventPayload>(
+  public unsubscribe<TType extends IEvent['type']>(
     eventType: TType,
-    handler: EventHandler<IEvent<TType, TPayload>>,
+    handler: EventHandler<Extract<IEvent, { type: TType }>>,
   ): void {
     const handlers = this.listeners.get(eventType);
     if (handlers) {

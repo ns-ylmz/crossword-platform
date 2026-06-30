@@ -1,11 +1,10 @@
+import { CommandTypes, EventTypes } from '@crossword/core';
 import type {
   GameState,
   ICommand,
   IDictionaryProvider,
   IGame,
   IPuzzleProvider,
-  StartGamePayload,
-  PlaceWordPayload,
 } from '@crossword/core';
 
 import { EventDispatcher } from './events/EventDispatcher.js';
@@ -33,22 +32,24 @@ export class CrosswordEngine {
    */
   public async execute(command: ICommand): Promise<void> {
     switch (command.type) {
-      case 'COMMAND_START_GAME':
-        await this.handleStartGame(command.payload as StartGamePayload);
+      case CommandTypes.START_GAME:
+        await this.handleStartGame(command.payload);
         break;
-      case 'COMMAND_PLACE_WORD':
-        this.handlePlaceWord(command.payload as PlaceWordPayload);
+      case CommandTypes.PLACE_WORD:
+        this.handlePlaceWord(command.payload);
         break;
-      case 'COMMAND_PAUSE_GAME':
+      case CommandTypes.PAUSE_GAME:
         this.handlePauseGame();
         break;
-      case 'COMMAND_RESUME_GAME':
+      case CommandTypes.RESUME_GAME:
         this.handleResumeGame();
         break;
-      case 'COMMAND_FINISH_GAME':
+      case CommandTypes.FINISH_GAME:
         this.handleFinishGame();
         break;
       default:
+        // By TypeScript's exhaustive check, we should never hit this if all types are handled,
+        // but it's good practice for runtime safety.
         throw new Error(`Unknown command type: ${(command as ICommand).type}`);
     }
   }
@@ -61,7 +62,9 @@ export class CrosswordEngine {
     return this.game ? this.game.state : 'Idle';
   }
 
-  private async handleStartGame(payload: StartGamePayload): Promise<void> {
+  private async handleStartGame(
+    payload: Extract<ICommand, { type: typeof CommandTypes.START_GAME }>['payload'],
+  ): Promise<void> {
     if (!this.puzzleProvider) {
       throw new Error('Cannot start game: No IPuzzleProvider attached.');
     }
@@ -78,13 +81,15 @@ export class CrosswordEngine {
     };
 
     this.events.dispatch({
-      type: 'EVENT_GAME_STARTED',
+      type: EventTypes.GAME_STARTED,
       payload: { gameId: this.game.id, puzzleId: payload.puzzleId },
       timestamp: Date.now(),
     });
   }
 
-  private handlePlaceWord(payload: PlaceWordPayload): void {
+  private handlePlaceWord(
+    payload: Extract<ICommand, { type: typeof CommandTypes.PLACE_WORD }>['payload'],
+  ): void {
     if (!this.game || this.game.state !== 'Playing') {
       throw new Error('Cannot place word: Game is not in playing state.');
     }
@@ -103,7 +108,7 @@ export class CrosswordEngine {
     }
 
     this.events.dispatch({
-      type: 'EVENT_WORD_PLACED',
+      type: EventTypes.WORD_PLACED,
       payload: {
         x: payload.x,
         y: payload.y,
@@ -121,7 +126,7 @@ export class CrosswordEngine {
     }
     this.game.state = 'Paused';
     this.events.dispatch({
-      type: 'EVENT_GAME_PAUSED',
+      type: EventTypes.GAME_PAUSED,
       payload: {},
       timestamp: Date.now(),
     });
@@ -133,7 +138,7 @@ export class CrosswordEngine {
     }
     this.game.state = 'Playing';
     this.events.dispatch({
-      type: 'EVENT_GAME_RESUMED',
+      type: EventTypes.GAME_RESUMED,
       payload: {},
       timestamp: Date.now(),
     });
@@ -145,7 +150,7 @@ export class CrosswordEngine {
     }
     this.game.state = 'Completed';
     this.events.dispatch({
-      type: 'EVENT_GAME_FINISHED',
+      type: EventTypes.GAME_FINISHED,
       payload: {},
       timestamp: Date.now(),
     });

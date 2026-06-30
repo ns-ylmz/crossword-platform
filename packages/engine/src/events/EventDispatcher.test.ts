@@ -1,4 +1,5 @@
 import type { IEvent } from '@crossword/core';
+import { EventTypes } from '@crossword/core';
 import { describe, it, expect, vi } from 'vitest';
 
 import { EventDispatcher } from './EventDispatcher.js';
@@ -8,13 +9,13 @@ describe('EventDispatcher', () => {
     const dispatcher = new EventDispatcher();
     const handler = vi.fn();
 
-    dispatcher.subscribe('EVENT_GAME_STARTED', handler);
+    dispatcher.subscribe(EventTypes.GAME_STARTED, handler);
 
-    const event = {
-      type: 'EVENT_GAME_STARTED',
+    const event: IEvent = {
+      type: EventTypes.GAME_STARTED,
       payload: { gameId: 'g1', puzzleId: 'p1' },
       timestamp: Date.now(),
-    } as unknown as IEvent;
+    };
 
     dispatcher.dispatch(event);
 
@@ -26,14 +27,14 @@ describe('EventDispatcher', () => {
     const dispatcher = new EventDispatcher();
     const handler = vi.fn();
 
-    dispatcher.subscribe('EVENT_GAME_STARTED', handler);
-    dispatcher.unsubscribe('EVENT_GAME_STARTED', handler);
+    dispatcher.subscribe(EventTypes.GAME_STARTED, handler);
+    dispatcher.unsubscribe(EventTypes.GAME_STARTED, handler);
 
-    const event = {
-      type: 'EVENT_GAME_STARTED',
+    const event: IEvent = {
+      type: EventTypes.GAME_STARTED,
       payload: { gameId: 'g1', puzzleId: 'p1' },
       timestamp: Date.now(),
-    } as unknown as IEvent;
+    };
 
     dispatcher.dispatch(event);
 
@@ -45,14 +46,14 @@ describe('EventDispatcher', () => {
     const startHandler = vi.fn();
     const placeHandler = vi.fn();
 
-    dispatcher.subscribe('EVENT_GAME_STARTED', startHandler);
-    dispatcher.subscribe('EVENT_WORD_PLACED', placeHandler);
+    dispatcher.subscribe(EventTypes.GAME_STARTED, startHandler);
+    dispatcher.subscribe(EventTypes.WORD_PLACED, placeHandler);
 
-    const event = {
-      type: 'EVENT_GAME_STARTED',
+    const event: IEvent = {
+      type: EventTypes.GAME_STARTED,
       payload: { gameId: 'g1', puzzleId: 'p1' },
       timestamp: Date.now(),
-    } as unknown as IEvent;
+    };
 
     dispatcher.dispatch(event);
 
