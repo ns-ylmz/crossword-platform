@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run --dir src --passWithNoTests",
     "dev": "tsc -w",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.ts\""
