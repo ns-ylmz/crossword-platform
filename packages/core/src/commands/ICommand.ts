@@ -3,7 +3,7 @@ import type { IMessage } from '../domain/IMessage.js';
 
 export const CommandTypes = {
   START_GAME: 'COMMAND_START_GAME',
-  PLACE_WORD: 'COMMAND_PLACE_WORD',
+  UPDATE_CELL: 'COMMAND_UPDATE_CELL',
   PAUSE_GAME: 'COMMAND_PAUSE_GAME',
   RESUME_GAME: 'COMMAND_RESUME_GAME',
   FINISH_GAME: 'COMMAND_FINISH_GAME',
@@ -13,9 +13,9 @@ export type EmptyPayload = Record<string, never>;
 
 export type StartGameCommand = IMessage<typeof CommandTypes.START_GAME, { puzzleId: string }>;
 
-export type PlaceWordCommand = IMessage<
-  typeof CommandTypes.PLACE_WORD,
-  { x: number; y: number; direction: ClueDirection; word: string }
+export type UpdateCellCommand = IMessage<
+  typeof CommandTypes.UPDATE_CELL,
+  { x: number; y: number; value: string }
 >;
 
 export type PauseGameCommand = IMessage<typeof CommandTypes.PAUSE_GAME, EmptyPayload>;
@@ -28,4 +28,4 @@ export type FinishGameCommand = IMessage<typeof CommandTypes.FINISH_GAME, EmptyP
  * Represents an intent to alter the Engine's state.
  */
 export type ICommand =
-  StartGameCommand | PlaceWordCommand | PauseGameCommand | ResumeGameCommand | FinishGameCommand;
+  StartGameCommand | UpdateCellCommand | PauseGameCommand | ResumeGameCommand | FinishGameCommand;

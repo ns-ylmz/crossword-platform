@@ -34,7 +34,7 @@ A **Command** is a request directed at the engine to perform an action or mutate
 - Commands can be rejected if they violate domain rules or constraints.
 - External consumers (UI, Plugins) interact with the engine exclusively by dispatching commands.
 
-_Examples:_ `StartGameCommand`, `PlaceWordCommand`, `RevealCellCommand`.
+_Examples:_ `StartGameCommand`, `UpdateCellCommand`, `RevealCellCommand`.
 
 ### Event Model (Output)
 
@@ -44,7 +44,7 @@ An **Event** is a notification emitted by the engine indicating that a domain ac
 - Events cannot be rejected (they describe something that has already happened).
 - External consumers update their own visual or local state purely by reacting to these events.
 
-_Examples:_ `GameStarted`, `WordPlaced`, `MoveRejected`, `ScoreUpdated`.
+_Examples:_ `GameStarted`, `CellUpdated`, `MoveRejected`, `ScoreUpdated`.
 
 ---
 
@@ -73,7 +73,5 @@ The engine supports extensibility through an event-driven Plugin system, without
 
 ### Provider Model (Data Acquisition)
 
-The engine does not hardcode data sources or network calls. When the engine requires external data (such as fetching a puzzle definition or verifying a word against a dictionary), it relies entirely on Interface-Driven Contracts.
-
-- The `Core` layer defines strict TypeScript interfaces (e.g., `IPuzzleProvider`, `IDictionaryProvider`).
-- The engine interacts with the outside world purely through these interfaces, ensuring total decoupling from the underlying implementation.
+- The `Core` layer defines strict TypeScript interfaces (e.g., `IPuzzleProvider`).
+- The engine interacts with the outside world purely through these interfaces, ensuring total decoupling from the underlying implementation. Validation is deterministic and derived dynamically from the puzzle's source of truth (`correctValue`).

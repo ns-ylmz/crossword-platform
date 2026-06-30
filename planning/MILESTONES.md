@@ -70,6 +70,13 @@ This document breaks down the active phases defined in the `ROADMAP.md` into act
 - Design a premium dark-mode, CSS-grid based interactive crossword board.
 - Connect the Vue application lifecycle to the `CrosswordEngine`.
 
+### M3.2: Grid Interaction & Instant Feedback
+
+- Remove `IDictionaryProvider` in favor of deterministic validation against `correctValue`.
+- Refactor the Engine to process cell-by-cell inputs (`UPDATE_CELL`) instead of full words.
+- Implement keyboard navigation (arrows, typing, backspace) natively in the Vue app.
+- Provide instant visual feedback for correct/incorrect letters.
+
 ---
 
 _(Subsequent milestones for Phase 3 will be added as we progress.)_

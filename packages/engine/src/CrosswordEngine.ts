@@ -1,26 +1,15 @@
 import { CommandTypes, EventTypes } from '@crossword/core';
-import type {
-  GameState,
-  ICommand,
-  IDictionaryProvider,
-  IGame,
-  IPuzzleProvider,
-} from '@crossword/core';
+import type { GameState, ICommand, IGame, IPuzzleProvider } from '@crossword/core';
 
 import { EventDispatcher } from './events/EventDispatcher.js';
 
 export class CrosswordEngine {
   public readonly events = new EventDispatcher();
 
-  private dictionaryProvider?: IDictionaryProvider;
   private game: IGame | null = null;
   private puzzleProvider?: IPuzzleProvider;
 
   constructor() {}
-
-  public attachDictionaryProvider(provider: IDictionaryProvider): void {
-    this.dictionaryProvider = provider;
-  }
 
   public attachPuzzleProvider(provider: IPuzzleProvider): void {
     this.puzzleProvider = provider;
@@ -35,8 +24,8 @@ export class CrosswordEngine {
       case CommandTypes.START_GAME:
         await this.handleStartGame(command.payload);
         break;
-      case CommandTypes.PLACE_WORD:
-        await this.handlePlaceWord(command.payload);
+      case CommandTypes.UPDATE_CELL:
+        await this.handleUpdateCell(command.payload);
         break;
       case CommandTypes.PAUSE_GAME:
         this.handlePauseGame();
@@ -76,7 +65,6 @@ export class CrosswordEngine {
       puzzle,
       state: 'Playing',
       timerMs: 0,
-      score: 0,
       userAnswers: {},
     };
 
@@ -87,46 +75,29 @@ export class CrosswordEngine {
     });
   }
 
-  private async handlePlaceWord(
-    payload: Extract<ICommand, { type: typeof CommandTypes.PLACE_WORD }>['payload'],
+  private async handleUpdateCell(
+    payload: Extract<ICommand, { type: typeof CommandTypes.UPDATE_CELL }>['payload'],
   ): Promise<void> {
     if (!this.game || this.game.state !== 'Playing') {
-      throw new Error('Cannot place word: Game is not in playing state.');
+      throw new Error('Cannot update cell: Game is not in playing state.');
     }
 
-    const chars = payload.word.split('');
-    let currentX = payload.x;
-    let currentY = payload.y;
-
-    // Mutate the grid regardless of whether the word is correct (Option A)
-    for (let i = 0; i < chars.length; i++) {
-      this.game.userAnswers[`${currentX},${currentY}`] = chars[i];
-      if (payload.direction === 'across') {
-        currentX++;
-      } else {
-        currentY++;
-      }
+    const { x, y, value } = payload;
+    const cell = this.game.puzzle.grid.cells[y]?.[x];
+    if (!cell) {
+      throw new Error('Cell out of bounds');
     }
 
-    // Default to true if no dictionary provider is attached
-    let isCorrect = true;
+    const isCorrect = cell.correctValue === value;
 
-    if (this.dictionaryProvider) {
-      isCorrect = await this.dictionaryProvider.isValidWord(payload.word);
-    }
-
-    if (isCorrect) {
-      // 10 points per letter
-      this.game.score += payload.word.length * 10;
-    }
+    this.game.userAnswers[`${x},${y}`] = { value, isCorrect };
 
     this.events.dispatch({
-      type: EventTypes.WORD_PLACED,
+      type: EventTypes.CELL_UPDATED,
       payload: {
-        x: payload.x,
-        y: payload.y,
-        direction: payload.direction,
-        word: payload.word,
+        x,
+        y,
+        value,
         isCorrect,
       },
       timestamp: Date.now(),

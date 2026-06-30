@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import type { IGame, IPuzzle } from '@crossword/core';
 
 const props = defineProps<{
@@ -8,11 +8,10 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'placeWord', x: number, y: number, direction: 'across' | 'down', word: string): void;
+  (e: 'updateCell', x: number, y: number, value: string): void;
 }>();
 
 const selectedDirection = ref<'across' | 'down'>('across');
-const wordInput = ref('');
 const selectedCell = ref<{ x: number; y: number } | null>(null);
 
 const gridStyle = computed(() => {
@@ -26,17 +25,18 @@ const gridStyle = computed(() => {
     borderRadius: '4px',
     width: 'fit-content',
     margin: '0 auto',
+    outline: 'none', // Remove focus outline since we have custom active state
   };
 });
 
 const getCellData = (x: number, y: number) => {
   if (!props.puzzle) return null;
-  return props.puzzle.grid.cells[y][x];
+  return props.puzzle.grid.cells[y]?.[x];
 };
 
-const getAnswer = (x: number, y: number) => {
-  if (!props.game) return '';
-  return props.game.userAnswers[`${x},${y}`] || '';
+const getAnswerData = (x: number, y: number) => {
+  if (!props.game) return null;
+  return props.game.userAnswers[`${x},${y}`];
 };
 
 const selectCell = (x: number, y: number) => {
@@ -51,26 +51,74 @@ const selectCell = (x: number, y: number) => {
   }
 };
 
-const submitWord = () => {
-  if (!selectedCell.value || !wordInput.value) return;
-  emit(
-    'placeWord',
-    selectedCell.value.x,
-    selectedCell.value.y,
-    selectedDirection.value,
-    wordInput.value.toUpperCase(),
-  );
-  wordInput.value = ''; // Reset input
+const moveSelection = (dx: number, dy: number) => {
+  if (!selectedCell.value || !props.puzzle) return;
+
+  let newX = selectedCell.value.x + dx;
+  let newY = selectedCell.value.y + dy;
+
+  // Boundary check
+  if (newX < 0) newX = 0;
+  if (newX >= props.puzzle.grid.width) newX = props.puzzle.grid.width - 1;
+  if (newY < 0) newY = 0;
+  if (newY >= props.puzzle.grid.height) newY = props.puzzle.grid.height - 1;
+
+  // Skip blocks if possible, or just select it if it's not a block
+  const cell = getCellData(newX, newY);
+  if (cell && !cell.isBlock) {
+    selectedCell.value = { x: newX, y: newY };
+  }
 };
+
+const advanceSelection = (backward = false) => {
+  if (selectedDirection.value === 'across') {
+    moveSelection(backward ? -1 : 1, 0);
+  } else {
+    moveSelection(0, backward ? -1 : 1);
+  }
+};
+
+const handleKeydown = (e: KeyboardEvent) => {
+  if (!selectedCell.value) return;
+
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    moveSelection(0, -1);
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    moveSelection(0, 1);
+  } else if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    moveSelection(-1, 0);
+  } else if (e.key === 'ArrowRight') {
+    e.preventDefault();
+    moveSelection(1, 0);
+  } else if (e.key === 'Backspace') {
+    e.preventDefault();
+    emit('updateCell', selectedCell.value.x, selectedCell.value.y, '');
+    advanceSelection(true);
+  } else if (/^[a-zA-Z]$/.test(e.key)) {
+    e.preventDefault();
+    emit('updateCell', selectedCell.value.x, selectedCell.value.y, e.key.toUpperCase());
+    advanceSelection(false);
+  } else if (e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    selectedDirection.value = selectedDirection.value === 'across' ? 'down' : 'across';
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown);
+});
 </script>
 
 <template>
   <div class="crossword-container">
-    <div class="score-board glass-panel">
-      Score: <span>{{ game?.score || 0 }}</span>
-    </div>
-
-    <div :style="gridStyle" class="grid-board glass-panel">
+    <div :style="gridStyle" class="grid-board glass-panel" tabindex="0">
       <template v-for="y in puzzle?.grid.height" :key="`row-${y}`">
         <template v-for="x in puzzle?.grid.width" :key="`cell-${x}-${y}`">
           <div
@@ -78,35 +126,17 @@ const submitWord = () => {
             :class="{
               'cell--empty': getCellData(x - 1, y - 1)?.isBlock,
               'cell--active': selectedCell?.x === x - 1 && selectedCell?.y === y - 1,
+              'cell--correct': getAnswerData(x - 1, y - 1)?.isCorrect === true,
+              'cell--incorrect':
+                getAnswerData(x - 1, y - 1)?.isCorrect === false &&
+                getAnswerData(x - 1, y - 1)?.value !== '',
             }"
             @click="selectCell(x - 1, y - 1)"
           >
-            {{ getAnswer(x - 1, y - 1) }}
+            {{ getAnswerData(x - 1, y - 1)?.value || '' }}
           </div>
         </template>
       </template>
-    </div>
-
-    <div class="controls glass-panel" v-if="selectedCell">
-      <div class="control-header">
-        <span>Starting at: ({{ selectedCell.x }}, {{ selectedCell.y }})</span>
-        <span
-          class="direction-toggle"
-          @click="selectedDirection = selectedDirection === 'across' ? 'down' : 'across'"
-        >
-          Direction: {{ selectedDirection.toUpperCase() }}
-        </span>
-      </div>
-      <div class="input-group">
-        <input
-          v-model="wordInput"
-          type="text"
-          placeholder="Enter word..."
-          @keyup.enter="submitWord"
-          maxlength="15"
-        />
-        <button @click="submitWord">Place</button>
-      </div>
     </div>
   </div>
 </template>
@@ -118,17 +148,6 @@ const submitWord = () => {
   gap: 2rem;
   width: 100%;
   max-width: 600px;
-}
-
-.score-board {
-  padding: 1rem 2rem;
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-.score-board span {
-  color: var(--accent-color);
 }
 
 .cell {
@@ -159,56 +178,21 @@ const submitWord = () => {
   box-shadow: inset 0 0 0 2px var(--accent-color);
 }
 
-.controls {
-  padding: 1.5rem;
+/* Feedback Colors */
+.cell--correct {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
 }
 
-.control-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+.cell--incorrect {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
 }
 
-.direction-toggle {
-  cursor: pointer;
-  color: var(--accent-color);
-}
-
-.input-group {
-  display: flex;
-  gap: 1rem;
-}
-
-input {
-  flex: 1;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--surface-border);
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  color: var(--text-primary);
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-input:focus {
-  border-color: var(--accent-color);
-}
-
-button {
-  background: var(--accent-color);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0 1.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-button:hover {
-  background: #2563eb;
+/* Ensure active cell overrides feedback background slightly so user sees it */
+.cell--active.cell--correct,
+.cell--active.cell--incorrect {
+  box-shadow: inset 0 0 0 2px var(--accent-color);
+  background: var(--cell-active);
 }
 </style>

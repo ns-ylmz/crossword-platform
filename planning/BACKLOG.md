@@ -66,8 +66,17 @@ This document contains the granular execution checklist for the active milestone
 
 ### M3.1: Vue Web Application
 
-- `[/]` Scaffold Vue 3 + Vite + TS app in `apps/web`.
-- `[ ]` Connect Engine and Core packages.
-- `[ ]` Build Premium Dark Mode aesthetics.
-- `[ ]` Implement local mock providers (`LocalPuzzleProvider`, `MockDictionaryProvider`).
-- `[ ]` Build UI components (`CrosswordGrid.vue`) and bind Engine state.
+- `[x]` Scaffold Vue 3 + Vite + TS app in `apps/web`.
+- `[x]` Connect Engine and Core packages.
+- `[x]` Build Premium Dark Mode aesthetics.
+- `[x]` Implement local mock providers (`LocalPuzzleProvider`, `MockDictionaryProvider`).
+- `[x]` Build UI components (`CrosswordGrid.vue`) and bind Engine state.
+
+### M3.2: Grid Interaction & Instant Feedback
+
+- `[/]` Claim M3.2 in `BACKLOG.md` and `MILESTONES.md` and create feature branch.
+- `[ ]` Remove `IDictionaryProvider` and `score` from `@crossword/core`.
+- `[ ]` Update Messaging Contracts (`UPDATE_CELL`, `CELL_UPDATED`).
+- `[ ]` Update `IGame.userAnswers` to track `{ value, isCorrect }`.
+- `[ ]` Refactor `CrosswordEngine` and tests for cell-by-cell interactions.
+- `[ ]` Update `CrosswordGrid.vue` for keyboard navigation and visual feedback.

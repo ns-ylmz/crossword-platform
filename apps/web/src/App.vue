@@ -2,7 +2,7 @@
 import { useCrossword } from './composables/useCrossword';
 import CrosswordGrid from './components/CrosswordGrid.vue';
 
-const { game, puzzle, isLoading, placeWord } = useCrossword();
+const { game, puzzle, isLoading, updateCell } = useCrossword();
 </script>
 
 <template>
@@ -13,7 +13,7 @@ const { game, puzzle, isLoading, placeWord } = useCrossword();
     <div v-if="isLoading" class="loading glass-panel">Initializing Engine...</div>
 
     <div v-else class="game-area">
-      <CrosswordGrid :game="game" :puzzle="puzzle" @place-word="placeWord" />
+      <CrosswordGrid :game="game" :puzzle="puzzle" @update-cell="updateCell" />
     </div>
   </main>
 </template>

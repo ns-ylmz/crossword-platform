@@ -1,4 +1,4 @@
-import type { IDictionaryProvider, IPuzzle, IPuzzleProvider } from '@crossword/core';
+import type { IPuzzle, IPuzzleProvider } from '@crossword/core';
 import { CommandTypes } from '@crossword/core';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
@@ -8,16 +8,8 @@ describe('CrosswordEngine', () => {
   let engine: CrosswordEngine;
   let mockPuzzleProvider: IPuzzleProvider;
 
-  const mockDictionaryProvider: IDictionaryProvider = {
-    isValidWord: vi.fn(async (word: string) => {
-      // For testing, let's say "WORLD" is correct, "WRONG" is incorrect.
-      return word === 'WORLD';
-    }),
-  };
-
   beforeEach(() => {
     engine = new CrosswordEngine();
-    engine.attachDictionaryProvider(mockDictionaryProvider);
 
     mockPuzzleProvider = {
       getPuzzle: vi.fn().mockResolvedValue({
@@ -25,7 +17,16 @@ describe('CrosswordEngine', () => {
         title: 'Test Puzzle',
         author: 'AI Agent',
         createdAt: Date.now(),
-        grid: { width: 10, height: 10, cells: [] },
+        grid: {
+          width: 2,
+          height: 1,
+          cells: [
+            [
+              { x: 0, y: 0, isBlock: false, correctValue: 'H' },
+              { x: 1, y: 0, isBlock: false, correctValue: 'I' },
+            ],
+          ],
+        },
         clues: { across: [], down: [] },
       } as unknown as IPuzzle),
     };
@@ -75,18 +76,18 @@ describe('CrosswordEngine', () => {
     );
   });
 
-  it('should throw an error if placing a word when the game is not playing', async () => {
+  it('should throw an error if updating a cell when the game is not playing', async () => {
     // Engine is 'Idle' by default
     await expect(
       engine.execute({
-        type: 'COMMAND_PLACE_WORD',
-        payload: { x: 0, y: 0, direction: 'across', word: 'HELLO' },
+        type: CommandTypes.UPDATE_CELL,
+        payload: { x: 0, y: 0, value: 'H' },
         timestamp: Date.now(),
       }),
-    ).rejects.toThrow('Cannot place word: Game is not in playing state.');
+    ).rejects.toThrow('Cannot update cell: Game is not in playing state.');
   });
 
-  it('should successfully place a correct word, dispatch EVENT_WORD_PLACED with isCorrect: true, and update score', async () => {
+  it('should successfully update a correct cell, dispatch EVENT_CELL_UPDATED with isCorrect: true', async () => {
     engine.attachPuzzleProvider(mockPuzzleProvider);
     await engine.execute({
       type: CommandTypes.START_GAME,
@@ -95,24 +96,23 @@ describe('CrosswordEngine', () => {
     });
 
     const eventHandler = vi.fn();
-    engine.events.subscribe('EVENT_WORD_PLACED', eventHandler);
+    engine.events.subscribe('EVENT_CELL_UPDATED', eventHandler);
 
     await engine.execute({
-      type: CommandTypes.PLACE_WORD,
-      payload: { x: 2, y: 3, direction: 'down', word: 'WORLD' },
+      type: CommandTypes.UPDATE_CELL,
+      payload: { x: 0, y: 0, value: 'H' },
       timestamp: Date.now(),
     });
 
     expect(eventHandler).toHaveBeenCalledTimes(1);
     expect(eventHandler).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: 'EVENT_WORD_PLACED',
+        type: 'EVENT_CELL_UPDATED',
         payload: expect.objectContaining({
-          x: 2,
-          y: 3,
-          direction: 'down',
-          word: 'WORLD',
-          isCorrect: true, // Should be true since 'WORLD' is mocked as valid
+          x: 0,
+          y: 0,
+          value: 'H',
+          isCorrect: true, // Should be true since 'H' is correct value
         }),
       }),
     );
@@ -120,12 +120,10 @@ describe('CrosswordEngine', () => {
     const game = engine.getGame();
     expect(game).not.toBeNull();
     // Verify grid mutation
-    expect(game?.userAnswers['2,3']).toBe('W');
-    // Verify scoring (10 points per letter, word is 5 letters -> 50 points)
-    expect(game?.score).toBe(50);
+    expect(game?.userAnswers['0,0']).toEqual({ value: 'H', isCorrect: true });
   });
 
-  it('should place an incorrect word, dispatch EVENT_WORD_PLACED with isCorrect: false, and NOT update score', async () => {
+  it('should update an incorrect cell, dispatch EVENT_CELL_UPDATED with isCorrect: false', async () => {
     engine.attachPuzzleProvider(mockPuzzleProvider);
     await engine.execute({
       type: CommandTypes.START_GAME,
@@ -134,24 +132,23 @@ describe('CrosswordEngine', () => {
     });
 
     const eventHandler = vi.fn();
-    engine.events.subscribe('EVENT_WORD_PLACED', eventHandler);
+    engine.events.subscribe('EVENT_CELL_UPDATED', eventHandler);
 
     await engine.execute({
-      type: CommandTypes.PLACE_WORD,
-      payload: { x: 0, y: 0, direction: 'across', word: 'WRONG' },
+      type: CommandTypes.UPDATE_CELL,
+      payload: { x: 1, y: 0, value: 'Z' },
       timestamp: Date.now(),
     });
 
     expect(eventHandler).toHaveBeenCalledTimes(1);
     expect(eventHandler).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: 'EVENT_WORD_PLACED',
+        type: 'EVENT_CELL_UPDATED',
         payload: expect.objectContaining({
-          x: 0,
+          x: 1,
           y: 0,
-          direction: 'across',
-          word: 'WRONG',
-          isCorrect: false, // Should be false since 'WRONG' is mocked as invalid
+          value: 'Z',
+          isCorrect: false, // Should be false since 'I' is correct value
         }),
       }),
     );
@@ -159,10 +156,7 @@ describe('CrosswordEngine', () => {
     const game = engine.getGame();
     expect(game).not.toBeNull();
     // Grid should still mutate
-    expect(game?.userAnswers['0,0']).toBe('W');
-    expect(game?.userAnswers['1,0']).toBe('R');
-    // Score should remain 0
-    expect(game?.score).toBe(0);
+    expect(game?.userAnswers['1,0']).toEqual({ value: 'Z', isCorrect: false });
   });
 
   it('should pause the game successfully if playing', async () => {
@@ -186,7 +180,7 @@ describe('CrosswordEngine', () => {
     expect(eventHandler).toHaveBeenCalledTimes(1);
   });
 
-  it('should reject placing a word if game is paused', async () => {
+  it('should reject updating a cell if game is paused', async () => {
     engine.attachPuzzleProvider(mockPuzzleProvider);
     await engine.execute({
       type: 'COMMAND_START_GAME',
@@ -202,11 +196,11 @@ describe('CrosswordEngine', () => {
 
     await expect(
       engine.execute({
-        type: 'COMMAND_PLACE_WORD',
-        payload: { x: 2, y: 3, direction: 'down', word: 'WORLD' },
+        type: 'COMMAND_UPDATE_CELL',
+        payload: { x: 0, y: 0, value: 'H' },
         timestamp: Date.now(),
       }),
-    ).rejects.toThrow('Cannot place word: Game is not in playing state.');
+    ).rejects.toThrow('Cannot update cell: Game is not in playing state.');
   });
 
   it('should resume the game successfully if paused', async () => {

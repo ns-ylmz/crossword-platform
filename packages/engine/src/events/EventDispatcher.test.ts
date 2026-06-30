@@ -44,10 +44,10 @@ describe('EventDispatcher', () => {
   it('should only dispatch to handlers of the matching event type', () => {
     const dispatcher = new EventDispatcher();
     const startHandler = vi.fn();
-    const placeHandler = vi.fn();
+    const cellHandler = vi.fn();
 
     dispatcher.subscribe(EventTypes.GAME_STARTED, startHandler);
-    dispatcher.subscribe(EventTypes.WORD_PLACED, placeHandler);
+    dispatcher.subscribe(EventTypes.CELL_UPDATED, cellHandler);
 
     const event: IEvent = {
       type: EventTypes.GAME_STARTED,
@@ -58,6 +58,6 @@ describe('EventDispatcher', () => {
     dispatcher.dispatch(event);
 
     expect(startHandler).toHaveBeenCalledTimes(1);
-    expect(placeHandler).not.toHaveBeenCalled();
+    expect(cellHandler).not.toHaveBeenCalled();
   });
 });
