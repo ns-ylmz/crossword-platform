@@ -3,15 +3,12 @@ import type { IGame, IPuzzle } from '@crossword/core';
 import { CommandTypes, EventTypes } from '@crossword/core';
 import { CrosswordEngine } from '@crossword/engine';
 import { LocalPuzzleProvider } from '../providers/LocalPuzzleProvider';
-import { MockDictionaryProvider } from '../providers/MockDictionaryProvider';
 
 export function useCrossword() {
   const engine = new CrosswordEngine();
   const puzzleProvider = new LocalPuzzleProvider();
-  const dictionaryProvider = new MockDictionaryProvider();
 
   engine.attachPuzzleProvider(puzzleProvider);
-  engine.attachDictionaryProvider(dictionaryProvider);
 
   const game = ref<IGame | null>(null);
   const puzzle = ref<IPuzzle | null>(null);
@@ -35,8 +32,7 @@ export function useCrossword() {
       }
       isLoading.value = false;
     });
-
-    engine.events.subscribe(EventTypes.WORD_PLACED, handleGameStateUpdate);
+    engine.events.subscribe(EventTypes.CELL_UPDATED, handleGameStateUpdate);
 
     // Initialize Game
     try {
@@ -55,10 +51,10 @@ export function useCrossword() {
     // engine.events.unsubscribe(...)
   });
 
-  const placeWord = async (x: number, y: number, direction: 'across' | 'down', word: string) => {
+  const updateCell = async (x: number, y: number, value: string) => {
     await engine.execute({
-      type: CommandTypes.PLACE_WORD,
-      payload: { x, y, direction, word },
+      type: CommandTypes.UPDATE_CELL,
+      payload: { x, y, value },
       timestamp: Date.now(),
     });
   };
@@ -67,6 +63,6 @@ export function useCrossword() {
     game,
     puzzle,
     isLoading,
-    placeWord,
+    updateCell,
   };
 }

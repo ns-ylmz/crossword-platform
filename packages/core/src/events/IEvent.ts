@@ -3,7 +3,7 @@ import type { IMessage } from '../domain/IMessage.js';
 
 export const EventTypes = {
   GAME_STARTED: 'EVENT_GAME_STARTED',
-  WORD_PLACED: 'EVENT_WORD_PLACED',
+  CELL_UPDATED: 'EVENT_CELL_UPDATED',
   GAME_PAUSED: 'EVENT_GAME_PAUSED',
   GAME_RESUMED: 'EVENT_GAME_RESUMED',
   GAME_FINISHED: 'EVENT_GAME_FINISHED',
@@ -16,10 +16,10 @@ export type GameStartedEvent = IMessage<
   { gameId: string; puzzleId: string }
 >;
 
-export type WordPlacedEvent = IMessage<
-  typeof EventTypes.WORD_PLACED,
-  { x: number; y: number; direction: ClueDirection; word: string; isCorrect: boolean }
->;
+export type CellUpdatedEvent = IMessage<
+  typeof EventTypes.CELL_UPDATED,
+  { x: number; y: number; value: string; isCorrect: boolean }
+> & { timestamp: number };
 
 export type GamePausedEvent = IMessage<typeof EventTypes.GAME_PAUSED, EmptyEventPayload>;
 
@@ -31,4 +31,4 @@ export type GameFinishedEvent = IMessage<typeof EventTypes.GAME_FINISHED, EmptyE
  * Represents a historical fact; something that has already occurred.
  */
 export type IEvent =
-  GameStartedEvent | WordPlacedEvent | GamePausedEvent | GameResumedEvent | GameFinishedEvent;
+  GameStartedEvent | CellUpdatedEvent | GamePausedEvent | GameResumedEvent | GameFinishedEvent;

@@ -7,7 +7,6 @@ export * from './domain/IMessage.js';
 export * from './domain/IPuzzle.js';
 
 // Providers
-export * from './providers/IDictionaryProvider.js';
 export * from './providers/IPuzzleProvider.js';
 
 // Commands

@@ -32,7 +32,6 @@ Examples of domain events include:
 - `PuzzleGenerated`
 - `MoveValidated`
 - `MoveRejected`
-- `ScoreUpdated`
 - `GameCompleted`
 
 Applications, Plugins, and internal Engine modules may subscribe to domain events when loose coupling or asynchronous coordination is preferred.
