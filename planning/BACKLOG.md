@@ -58,6 +58,16 @@ This document contains the granular execution checklist for the active milestone
 
 ### M2.3: Word Validation & Scoring
 
-- `[ ]` Integrate `IDictionaryProvider` into `handlePlaceWord` to validate inputs.
-- `[ ]` Update `Game.score` based on correct/incorrect placements.
-- `[ ]` Write TDD tests using a mock dictionary provider.
+- `[x]` Integrate `IDictionaryProvider` into `handlePlaceWord` to validate inputs.
+- `[x]` Update `Game.score` based on correct/incorrect placements.
+- `[x]` Write TDD tests using a mock dictionary provider.
+
+## Phase 3: Extensibility & UI
+
+### M3.1: Vue Web Application
+
+- `[/]` Scaffold Vue 3 + Vite + TS app in `apps/web`.
+- `[ ]` Connect Engine and Core packages.
+- `[ ]` Build Premium Dark Mode aesthetics.
+- `[ ]` Implement local mock providers (`LocalPuzzleProvider`, `MockDictionaryProvider`).
+- `[ ]` Build UI components (`CrosswordGrid.vue`) and bind Engine state.

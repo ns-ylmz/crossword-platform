@@ -61,4 +61,15 @@ This document breaks down the active phases defined in the `ROADMAP.md` into act
 
 ---
 
-_(Subsequent milestones for Phase 3: Extensibility & UI will be added as we progress.)_
+## Phase 3: Extensibility & UI
+
+### M3.1: Vue Web Application
+
+- Scaffold a `web` application inside `apps/` using Vue 3 and Vite.
+- Implement a `LocalPuzzleProvider` to feed JSON data.
+- Design a premium dark-mode, CSS-grid based interactive crossword board.
+- Connect the Vue application lifecycle to the `CrosswordEngine`.
+
+---
+
+_(Subsequent milestones for Phase 3 will be added as we progress.)_
