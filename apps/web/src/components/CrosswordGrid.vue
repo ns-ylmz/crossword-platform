@@ -83,15 +83,19 @@ const handleKeydown = (e: KeyboardEvent) => {
 
   if (e.key === 'ArrowUp') {
     e.preventDefault();
+    selectedDirection.value = 'down';
     moveSelection(0, -1);
   } else if (e.key === 'ArrowDown') {
     e.preventDefault();
+    selectedDirection.value = 'down';
     moveSelection(0, 1);
   } else if (e.key === 'ArrowLeft') {
     e.preventDefault();
+    selectedDirection.value = 'across';
     moveSelection(-1, 0);
   } else if (e.key === 'ArrowRight') {
     e.preventDefault();
+    selectedDirection.value = 'across';
     moveSelection(1, 0);
   } else if (e.key === 'Backspace') {
     e.preventDefault();
