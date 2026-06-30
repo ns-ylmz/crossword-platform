@@ -44,7 +44,7 @@ An **Event** is a notification emitted by the engine indicating that a domain ac
 - Events cannot be rejected (they describe something that has already happened).
 - External consumers update their own visual or local state purely by reacting to these events.
 
-_Examples:_ `GameStarted`, `CellUpdated`, `MoveRejected`, `ScoreUpdated`.
+_Examples:_ `GameStarted`, `CellUpdated`, `MoveRejected`.
 
 ---
 
